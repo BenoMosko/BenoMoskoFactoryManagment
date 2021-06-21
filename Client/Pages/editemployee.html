@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="C:\Code\Technion\Project1_Full_Stack_with_ASP.NET_Project\Client\Scripts\main.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Employee</title>
+</head>
+<body onload="editEmployeePage()">
+    <h1>Edit Employee</h1><br>
+    <a href="#" onclick="window.location.href = 'home.html' ">HOME</a><br><br>
+    User Logged In : <span id="user_full_name"></span><br/>
+    Employee First Name : <span id="employee_first_name"></span><br/>
+    Employee Last Name : <span id="employee_last_name"></span><br/><br>
+
+    First Name: <input type="text" id="empfirstname"><br>
+    Last Name: <input type="text" id="emplastname"><br>
+    Start Work Date: <input type="text" id="empstartwork"><br>
+    Department: <input type="text" id="empdepartment"><br>
+    Shift: <input type="text" id="empshift"><br><br>
+    <input type="button" value="save changes" id="saveBtn" onclick="updateEmployee()">
+</body>
+</html>

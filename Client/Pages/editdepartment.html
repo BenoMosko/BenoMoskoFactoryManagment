@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="C:\Code\Technion\Project1_Full_Stack_with_ASP.NET_Project\Client\Scripts\main.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--use app.js functions-->
+    <title>Edit Department</title>
+</head>
+<body onload="editDepartmentPage()">
+    <h1>Edit Department</h1><br>
+    <a href="#" onclick="window.location.href = 'home.html' ">HOME</a><br><br>
+    User Logged In : <span id="user_full_name"></span><br/>
+    Department : <span id="departmentName"></span><br/>
+    Name: <input type="text" id="department_name"><br>
+    Manager: <input type="text" id="department_manager"><br>
+    <input type="button" value="save changes" id="saveBtn" onclick="updateDepartment()">
+</body>
+</html>

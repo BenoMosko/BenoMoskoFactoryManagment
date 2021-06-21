@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="C:\Code\Technion\Project1_Full_Stack_with_ASP.NET_Project\Client\Scripts\main.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
+</head>
+<body onload="getUserID()">
+    <h1>Home</h1>
+
+    User Logged In : <span id="user_full_name"></span><br/>
+
+    <a href="#" onclick="window.location.href = 'employees.html' ">Employees</a>
+    <a href="#" onclick="window.location.href = 'departments.html' ">Departments</a>
+    <a href="#" onclick="window.location.href = 'shifts.html'">Shifts</a>
+    <input type="button" value="Log Out" onclick="logOut()">
+</body>
+</html>

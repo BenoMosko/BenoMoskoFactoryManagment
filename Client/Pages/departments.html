@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="C:\Code\Technion\Project1_Full_Stack_with_ASP.NET_Project\Client\Scripts\main.js">
+    </script>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Departments</title>
+</head>
+<body onload="getDepartmentsTable()" onload="getUserID()">
+    <h1>Departments</h1><br>
+    <a href="#" onclick="window.location.href = 'home.html' ">HOME</a><br><br>
+    User Logged In : <span id="user_full_name"></span><br/>
+    <table border="1" id="departments_table">
+        <tr>
+            <th>Name</th>
+            <th>Manager</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </table><br><br>
+
+    <form action="">
+    <h3>Add Department</h3>
+    Department Name: <input type="text" id="add_department_name"><br>
+    Department Manager: <input type="text" id="add_department_manager"><br>
+    <input type="button" value="Add Department" id="add_department" onclick="addDepartment()">
+    </form>
+
+</body>
+</html>
