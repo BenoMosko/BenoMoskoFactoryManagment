@@ -13,37 +13,33 @@ namespace Factory_Management.Controllers
     public class EmployeesController : ApiController
     {
         private static readonly EmployeesBL EmployeesBL = new EmployeesBL();
-        // GET: api/Employees
+
         public IEnumerable<EmployeeDepartmentsShifts> Get()
         {
             return EmployeesBL.GetEmployees();
         }
 
-        // GET: api/Employees/5
         public IEnumerable<EmployeeDepartmentsShifts> Get(int id)
         {
-            yield return EmployeesBL.GetEmployee(id);
+            return EmployeesBL.GetEmployee(id);
         }
 
-        //// GET: api/Employees/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        public string Put(int id, EmployeeDepartmentsShifts emp)
+        {
+            EmployeesBL.EditEmployee(id, emp);
+            return "Updated!";
+        }
 
-        //// POST: api/Employees
-        //public void Post([FromBody]string value)
-        //{
-        //}
+        public String Delete(int id)
+        {
+            EmployeesBL.DeleteEmployee(id);
+            return "Deleted!";
+        }
 
-        //// PUT: api/Employees/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE: api/Employees/5
-        //public void Delete(int id)
-        //{
-        //}
+        public String Post(Employee emp)
+        {
+            EmployeesBL.AddEmployee(emp);
+            return "Added!";
+        }
     }
 }
