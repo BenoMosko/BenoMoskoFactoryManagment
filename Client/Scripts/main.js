@@ -123,7 +123,7 @@ async function editDepartmentPage()
 
 }
 
-
+//Update the Department
 async function updateDepartment()
 {
     let departName = document.getElementById("department_name").value;
@@ -137,7 +137,7 @@ async function updateDepartment()
     let fetchParams = { method : 'PUT',
                         body :   JSON.stringify(obj),
                         headers : {"Content-Type" : "application/json"}
-                    }
+                      }
 
     let resp = await fetch("https://localhost:44345/api/Departments/" + departID, fetchParams);
     let status = await resp.json() ;
@@ -148,8 +148,10 @@ async function updateDepartment()
 //Delete Department
 async function deleteDepartment(id)
 {
-    let fetchParams = { method : 'DELETE', headers : {"Content-Type" : "application/json"}
-}
+    let fetchParams = { 
+                        method : 'DELETE', 
+                        headers : {"Content-Type" : "application/json"}
+                      }
 
 let resp = await fetch("https://localhost:44345/api/Departments/" + id, fetchParams);
 let status = await resp.json() ;
@@ -255,6 +257,81 @@ async function editEmployeePage()
     const emp = await response.json();
 
     document.getElementById("user_full_name").innerText = sessionStorage.getItem("FullName");
-    document.getElementById("employee_first_name").innerText = emp.First_Name;
+    emp.forEach(em =>
+        {
+            document.getElementById("employee_first_name").innerText = em.First_Name
+            document.getElementById("employee_last_name").innerText = em.Last_Name
+        });
     
+}
+
+//Update Employee
+async function updateEmployee()
+{
+    const urlParams = new URLSearchParams(window.location.search);
+    const empID = urlParams.get("empId");
+
+    let employeeFirstName = document.getElementById("empfirstname").value;
+    let employeeLastName = document.getElementById("emplastname").value;
+    let employeeStartWork = document.getElementById("empstartwork").value;
+    let employeeDepartment = document.getElementById("empdepartment").value;
+    let employeeShift = document.getElementById("empshift").value;
+
+    let obj = {
+                First_Name : employeeFirstName, 
+                Last_Name : employeeLastName,
+                Start_Work_Year : employeeStartWork,
+                Name : employeeDepartment,
+                ShiftID : employeeShift
+              }
+
+    let fetchParams = { method : 'PUT',
+                        body :   JSON.stringify(obj),
+                        headers : {"Content-Type" : "application/json"}
+                    }
+
+    let resp = await fetch("https://localhost:44345/api/Employees/" + empID, fetchParams);
+    let status = await resp.json() ;
+    alert(status);
+}
+
+//Delete Employee
+async function deleteEmployee(id)
+{
+    let fetchParams = { 
+                        method : 'DELETE', 
+                        headers : {"Content-Type" : "application/json"}
+                      }
+
+let resp = await fetch("https://localhost:44345/api/Employees/" + id, fetchParams);
+let status = await resp.json() ;
+alert(status);
+
+window.location.href = "employees.html?UserId=" + sessionStorage.getItem("ID");
+
+}
+
+//Add Employee
+async function addEmployee(id)
+{
+    let employeeFirstName = document.getElementById("add_employee_first_name").value;
+    let employeeLastName = document.getElementById("add_employee_last_name").value;
+    let employeeStartWork = document.getElementById("add_employee_work_year").value;
+    let employeeDepartment = document.getElementById("add_employee_department").value;
+    let employeeShift = document.getElementById("add_employee_shift").value;
+
+    let obj = {
+                First_Name : employeeFirstName, 
+                Last_Name : employeeLastName,
+                Start_Work_Year : employeeStartWork,
+                DepartmentID : employeeDepartment,
+                ShiftID : employeeShift
+              };
+
+    let fetchParams = {method : 'POST', body :   JSON.stringify(obj), headers : {"Content-Type" : "application/json"}}
+
+    let resp = await fetch("https://localhost:44345/api/Employees/" + id, fetchParams);
+    let status = await resp.json() ;
+    alert(status);
+    window.location.href = "employees.html?UserId=" + sessionStorage.getItem("ID");
 }
