@@ -33,7 +33,7 @@ namespace Factory_Management.Models
             return result.ToList();
         }
 
-        public EmployeeDepartmentsShifts GetEmployee(int id)
+        public List<EmployeeDepartmentsShifts> GetEmployee(int id)
         {
             var result = (from emp in FactoryDB.Employee
                          join dep in FactoryDB.Department on emp.DepartmentID equals dep.ID
@@ -54,7 +54,29 @@ namespace Factory_Management.Models
                              End_Time = shift.End_Time
 
                          }).Where(x => x.ID == id);
-            return result.First();
+            return result.ToList();
+        }
+
+        public void  EditEmployee(int id, EmployeeDepartmentsShifts emp)
+        {
+            var CurrentEmployee = FactoryDB.Employee.Where(e => e.ID == id).First();
+            CurrentEmployee.First_Name = emp.First_Name;
+            CurrentEmployee.Last_Name = emp.Last_Name;
+            CurrentEmployee.Start_Work_Year = emp.Start_Work_Year;
+            FactoryDB.SaveChanges();
+        }
+
+        public void DeleteEmployee(int id)
+        {
+            var currentEmployee = FactoryDB.Employee.Where(e => e.ID == id).First();
+            FactoryDB.Employee.Remove(currentEmployee);
+            FactoryDB.SaveChanges();
+        }
+
+        public void AddEmployee(Employee emp)
+        {
+            FactoryDB.Employee.Add(emp);
+            FactoryDB.SaveChanges();
         }
     }
 }
