@@ -8,7 +8,7 @@ async function getUserID()
 
     let user = await response.json();
 
-    document.getElementById("user_full_name").innerText = user.Full_Name;
+    document.getElementById("user_full_name").innerText = user.Full_Name
 }
 
 //LogIn function
@@ -29,13 +29,15 @@ async function logIn()
     {
         const resLog = await fetch("https://localhost:44345/api/LogIn/" + data.ID);
         const dataLog = await resLog.json();
-
         
         if(dataLog)
         {
             sessionStorage.setItem("FullName",data.Full_Name);
             sessionStorage.setItem("ID",data.ID);
+            sessionStorage.setItem("NumberOfActions", data.Number_Of_Actions);
+            sessionStorage.setItem("AllowedActions", data.Allowed_Actions);
             window.location.href = "home.html?UserId=" + data.ID;
+            
         }
         else
         {
@@ -51,8 +53,51 @@ async function logIn()
 
 
 //Log Out function (kind of)
-function logOut() {
+function logOut()
+{
     window.location.href = "login.html";
+}
+
+
+
+// //Update User Current Actions
+async function updateCurrentAction()
+{
+
+    let obj = {ID : sessionStorage.getItem("ID"), Allowed_Actions : sessionStorage.getItem("AllowedActions")}
+
+    let fetchParams = { method : 'PUT',
+                        body :   JSON.stringify(obj),
+                        headers : {"Content-Type" : "application/json"}
+                      }
+
+    let resp = await fetch("https://localhost:44345/api/LogIn/" + obj.ID, fetchParams);
+    let status = await resp.json();
+    alert(status);
+}
+
+
+
+//Action Counter for Users
+async function actionCounter()
+{
+    let numOfAct = sessionStorage.getItem("NumberOfActions");
+    let allowedActions = sessionStorage.getItem("AllowedActions"); 
+
+    if(numOfAct < allowedActions)
+    {
+        allowedActions ++
+        sessionStorage.setItem("AllowedActions", allowedActions); 
+        updateCurrentAction();
+    }
+    else
+    {
+        alert("User Action Exceeded")
+        //Clean session storage
+        window.location.href = "login.html";
+
+    }
+    
 }
 
 
@@ -97,7 +142,7 @@ async function getDepartmentsTable()
        tdEditBTN.appendChild(editButton);
        tdDeleteBTN.appendChild(deleteButton);
 
-       tableObject.appendChild(trObject);       
+       tableObject.appendChild(trObject);
     });
 }
 
@@ -126,6 +171,7 @@ async function editDepartmentPage()
 //Update the Department
 async function updateDepartment()
 {
+    actionCounter()
     let departName = document.getElementById("department_name").value;
     let departManager = document.getElementById("department_manager").value;
 
@@ -148,6 +194,7 @@ async function updateDepartment()
 //Delete Department
 async function deleteDepartment(id)
 {
+    actionCounter()
     let fetchParams = { 
                         method : 'DELETE', 
                         headers : {"Content-Type" : "application/json"}
@@ -164,6 +211,7 @@ window.location.href = "departments.html?UserId=" + sessionStorage.getItem("ID")
 //Add Department
 async function addDepartment(id)
 {
+    actionCounter()
     let departName = document.getElementById("add_department_name").value;
     let departManager = document.getElementById("add_department_manager").value;
 
@@ -185,6 +233,7 @@ Employees
 //Get Employees into a table
 async function getEmployeeTable()
 {
+    actionCounter()
     const response = await fetch("https://localhost:44345/api/Employees/");
     const employees = await response.json();
 
@@ -268,6 +317,7 @@ async function editEmployeePage()
 //Update Employee
 async function updateEmployee()
 {
+    actionCounter()
     const urlParams = new URLSearchParams(window.location.search);
     const empID = urlParams.get("empId");
 
@@ -298,6 +348,7 @@ async function updateEmployee()
 //Delete Employee
 async function deleteEmployee(id)
 {
+    actionCounter()
     let fetchParams = { 
                         method : 'DELETE', 
                         headers : {"Content-Type" : "application/json"}
@@ -314,6 +365,7 @@ window.location.href = "employees.html?UserId=" + sessionStorage.getItem("ID");
 //Add Employee
 async function addEmployee(id)
 {
+    actionCounter()
     let employeeFirstName = document.getElementById("add_employee_first_name").value;
     let employeeLastName = document.getElementById("add_employee_last_name").value;
     let employeeStartWork = document.getElementById("add_employee_work_year").value;
@@ -334,4 +386,76 @@ async function addEmployee(id)
     let status = await resp.json() ;
     alert(status);
     window.location.href = "employees.html?UserId=" + sessionStorage.getItem("ID");
+}
+
+
+/*
+Shifts
+*/
+
+//Get Shifts into a table
+async function getShiftTable()
+{
+    actionCounter()
+    const response = await fetch("https://localhost:44345/api/Shifts/");
+    const shifts = await response.json();
+
+    let userFullName = document.getElementById("user_full_name");
+    userFullName.innerHTML = sessionStorage.getItem("FullName")
+    
+    let tableObject = document.getElementById("shift_table");
+
+    shifts.forEach(sh =>
+    {
+       let trObject = document.createElement("tr");
+
+    //    let tdShiftID = document.createElement("td");
+       let tdShiftDate = document.createElement("td");
+       let tdShiftStart = document.createElement("td");
+       let tdShiftEnd = document.createElement("td");
+    //    let tdEmpID = document.createElement("td");
+    //    let tdFirstName = document.createElement("td");
+    //    let tdLastName = document.createElement("td");
+ 
+
+    //    tdShiftID.innerText = sh.ShiftID;
+       tdShiftDate.innerText = sh.Date;
+       tdShiftStart.innerText = sh.Start_Time;
+       tdShiftEnd.innerText = sh.End_Time;
+    //    tdEmpID.innerText = sh.EmployeeID;
+    //    tdFirstName.innerText = sh.First_Name;
+    //    tdLastName.innerText = sh.Last_Name;
+
+    //    trObject.appendChild(tdShiftID);
+       trObject.appendChild(tdShiftDate);
+       trObject.appendChild(tdShiftStart);
+       trObject.appendChild(tdShiftEnd);
+    //    trObject.appendChild(tdEmpID);
+    //    trObject.appendChild(tdFirstName);
+    //    trObject.appendChild(tdLastName);
+
+       tableObject.appendChild(trObject);       
+    });
+}
+
+//Add Shift
+async function addShift(id)
+{
+    actionCounter()
+    let shiftDate = document.getElementById("add_shift_date").value;
+    let shiftStart = document.getElementById("add_shift_start").value;
+    let shiftEnd = document.getElementById("add_shift_end").value;
+
+    let obj = {
+                Date : shiftDate, 
+                Start_Time : shiftStart,
+                End_Time : shiftEnd,
+              };
+
+    let fetchParams = {method : 'POST', body :   JSON.stringify(obj), headers : {"Content-Type" : "application/json"}}
+
+    let resp = await fetch("https://localhost:44345/api/Shifts/" + id, fetchParams);
+    let status = await resp.json() ;
+    alert(status);
+    window.location.href = "shifts.html?UserId=" + sessionStorage.getItem("ID");
 }
