@@ -7,8 +7,8 @@ namespace Factory_Management.Models
 {
     public class LogInBL
     {
-        readonly FaectoryEntities FaectoryDB = new FaectoryEntities();
-        private static readonly LogsCheck log = new LogsCheck();
+        FaectoryEntities FaectoryDB = new FaectoryEntities();
+        private static LogsCheck log = new LogsCheck();
 
         //public bool IsUserExist(string username, string password)
         //{
@@ -23,15 +23,25 @@ namespace Factory_Management.Models
         //    }
         //}
 
+        public List<Users> GetUsers()
+        {
+            return FaectoryDB.Users.ToList();
+        }
+        public Users GetUserByID(int id)
+        {
+            return FaectoryDB.Users.Where(x => x.ID == id).First();
+        }
+
         public Users IsUserExist(Users user)
         {
             var result = FaectoryDB.Users.Where(un => un.User_Name == user.User_Name && un.Password == user.Password);
+            var res = result.First();
 
             if (result.Count() == 1)
             {
                 DateTime DateTimeNow = DateTime.Now;
 
-                var CheckLog = FaectoryDB.Logins.Where(log => log.UserID == result.FirstOrDefault().ID);
+                var CheckLog = FaectoryDB.Logins.Where(log => log.UserID == res.ID);
 
                 if (CheckLog.Count() == 1)
                 {
@@ -45,14 +55,13 @@ namespace Factory_Management.Models
                 {
                     Logins NewLogIn = new Logins
                     {
-                        UserID = result.FirstOrDefault().ID,
+                        UserID = res.ID,
                         Date = DateTimeNow
                     };
                     FaectoryDB.Logins.Add(NewLogIn);
                     FaectoryDB.SaveChanges();
                 }
-
-                return result.First();
+                return res;
             }
             else
             {

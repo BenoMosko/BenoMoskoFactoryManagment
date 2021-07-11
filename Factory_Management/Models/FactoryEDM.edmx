@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BenoMoskoFactoryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BenoMoskoFactoryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="ID" />
@@ -58,6 +58,7 @@
           <Property Name="User Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="8" Nullable="false" />
           <Property Name="Number Of Actions" Type="int" Nullable="false" />
+          <Property Name="Allowed Actions" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="BenoMoskoFactoryModelStoreContainer">
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
@@ -67,8 +68,7 @@
           <EntitySet Name="Shift" EntityType="Self.Shift" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BenoMoskoFactoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -116,24 +116,25 @@
           <Property Name="Start_Time" Type="Time" Nullable="false" Precision="7" />
           <Property Name="End_Time" Type="Time" Nullable="false" Precision="7" />
         </EntityType>
-        <EntityType Name="Users">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Full_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Number_Of_Actions" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityContainer Name="FaectoryEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Department" EntityType="Self.Department" />
           <EntitySet Name="Employee" EntityType="Self.Employee" />
           <EntitySet Name="EmployeeShift" EntityType="Self.EmployeeShift" />
           <EntitySet Name="Logins" EntityType="Self.Logins" />
           <EntitySet Name="Shift" EntityType="Self.Shift" />
-          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Users" EntityType="BenoMoskoFactoryModel.Users" />
         </EntityContainer>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Full_Name" Type="String" Nullable="false" />
+          <Property Name="User_Name" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" />
+          <Property Name="Number_Of_Actions" Type="Int32" Nullable="false" />
+          <Property Name="Allowed_Actions" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -190,13 +191,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="BenoMoskoFactoryModel.Users">
+            <EntityTypeMapping TypeName="IsTypeOf(BenoMoskoFactoryModel.Users)">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Full_Name" ColumnName="Full Name" />
-                <ScalarProperty Name="User_Name" ColumnName="User Name" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Allowed_Actions" ColumnName="Allowed Actions" />
                 <ScalarProperty Name="Number_Of_Actions" ColumnName="Number Of Actions" />
+                <ScalarProperty Name="User_Name" ColumnName="User Name" />
+                <ScalarProperty Name="Full_Name" ColumnName="Full Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

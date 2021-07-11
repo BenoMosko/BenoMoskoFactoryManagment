@@ -19,5 +19,6 @@ namespace Factory_Management.Models
         public string User_Name { get; set; }
         public string Password { get; set; }
         public int Number_Of_Actions { get; set; }
+        public int Allowed_Actions { get; set; }
     }
 }
