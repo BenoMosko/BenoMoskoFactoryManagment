@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="C:\Code\Technion\Project1_Full_Stack_with_ASP.NET_Project\Client\Scripts\main.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Employee Search Results</title>
+</head>
+<body onload="getUserID()">
+    <h1>Employee Search Results</h1><br>
+    <a href="#" onclick="window.location.href = 'home.html' ">HOME</a><br><br>
+    <a href="#" onclick="window.location.href = 'employees.html' ">Employees Page</a><br><br>
+    User Logged In : <span id="user_full_name"></span><br/>
+    <table border="1" id="employee_table">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Department Name</th>
+        </tr>
+            <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const employeeFN = urlParams.get("empFN");
+            const employeeLN = urlParams.get("empLN");
+            const employeeDep = urlParams.get("empDep");
+            document.write("<td>" + employeeFN + "</td>");
+            document.write("<td>" + employeeLN + "</td>");
+            document.write("<td>" + employeeDep + "</td>");
+            </script>
+    </table><br><br>
+</html>

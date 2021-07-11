@@ -7,8 +7,28 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Shifts</title>
 </head>
-<body>
+<body onload="getShiftTable()" onload="getUserID()">
     <h1>Shifts</h1>
     <a href="#" onclick="window.location.href = 'home.html' ">HOME</a><br><br>
+    User Logged In : <span id="user_full_name"></span><br/>
+    <table border="1" id="shift_table">
+        <tr>
+            <!-- <th>Shift ID</th> -->
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <!-- <th>Employee ID</th>
+            <th>First Name</th>
+            <th>Last Name</th> -->
+        </tr>
+    </table><br><br>
+
+    <form action="">
+    <h3>Add Shift</h3>
+    Date: <input type="text" id="add_shift_date"><br>
+    Start Time: <input type="text" id="add_shift_start"><br>
+    End Time: <input type="text" id="add_shift_end"><br>
+    <input type="button" value="Add Shift" id="add_employee" onclick="addShift()">
+    </form>
 </body>
 </html>
