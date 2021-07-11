@@ -9,6 +9,7 @@ async function getUserID()
     let user = await response.json();
 
     document.getElementById("user_full_name").innerText = user.Full_Name
+    // sessionUserId = sessionStorage.setItem("ID", userID)
 }
 
 //LogIn function
@@ -60,20 +61,22 @@ function logOut()
 
 
 
-// //Update User Current Actions
+//Update User Current Actions
 async function updateCurrentAction()
 {
+    let sessionId = sessionStorage.getItem("ID");
+    let sessionAllowedActions = sessionStorage.getItem("AllowedActions");
+    let sessionNumOfAct = sessionStorage.getItem("NumberOfActions");
 
-    let obj = {ID : sessionStorage.getItem("ID"), Allowed_Actions : sessionStorage.getItem("AllowedActions")}
+    let obj = {ID : sessionId, Allowed_Actions : sessionAllowedActions, Number_Of_Actions : sessionNumOfAct};
 
     let fetchParams = { method : 'PUT',
                         body :   JSON.stringify(obj),
                         headers : {"Content-Type" : "application/json"}
                       }
 
-    let resp = await fetch("https://localhost:44345/api/LogIn/" + obj.ID, fetchParams);
+    let resp = await fetch("https://localhost:44345/api/Users/" + obj.ID, fetchParams);
     let status = await resp.json();
-    alert(status);
 }
 
 
@@ -81,13 +84,14 @@ async function updateCurrentAction()
 //Action Counter for Users
 async function actionCounter()
 {
-    let numOfAct = sessionStorage.getItem("NumberOfActions");
-    let allowedActions = sessionStorage.getItem("AllowedActions"); 
+    let sessionAllowedActions = sessionStorage.getItem("AllowedActions");
+    let sessionNumOfAct = sessionStorage.getItem("NumberOfActions");
 
-    if(numOfAct < allowedActions)
+
+    if(sessionNumOfAct < sessionAllowedActions)
     {
-        allowedActions ++
-        sessionStorage.setItem("AllowedActions", allowedActions); 
+        sessionNumOfAct ++
+        sessionStorage.setItem("NumberOfActions", sessionNumOfAct); 
         updateCurrentAction();
     }
     else
@@ -288,6 +292,27 @@ async function getEmployeeTable()
 
        tableObject.appendChild(trObject);       
     });
+}
+
+
+//Search Employee function
+async function getSearchData()
+{
+    const response = await fetch("https://localhost:44345/api/Employees/");
+    const employees = await response.json();
+    let searchResult = document.getElementById("search_employee").value;
+
+    employees.forEach(emp =>
+        {
+            if(emp.First_Name == searchResult || emp.Last_Name == searchResult|| emp.DepartmentID == searchResult)
+            {
+                window.location.href = "searchresult.html?UserId=" + sessionStorage.getItem("ID") + "&empId=" + emp.ID + "&empFN=" + emp.First_Name + "&empLN=" + emp.Last_Name + "&empDep=" + emp.Name;
+            }
+            else
+            {
+
+            }
+        });
 }
 
 //Edit Employee Button
