@@ -32,7 +32,7 @@ namespace Factory_Management.Controllers
 
         public String Put(int id,  Department dep)
         {
-            DepartmentsBL.EditDepartments(id,  dep);
+            DepartmentsBL.EditDepartments(id, dep);
             return "Updated!";
         }
 

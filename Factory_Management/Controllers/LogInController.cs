@@ -13,10 +13,9 @@ namespace Factory_Management.Controllers
     public class LogInController : ApiController
     {
         private static readonly LogInBL LogInBL = new LogInBL();
-        // GET: api/LogIn
-        public IEnumerable<string> Get()
+        public IEnumerable<Users> Get()
         {
-            return new string[] { "value1", "value2" };
+            return LogInBL.GetUsers();
         }
 
         //public IEnumerable<string> Get()
@@ -25,10 +24,10 @@ namespace Factory_Management.Controllers
         //}
 
         // GET: api/LogIn/5
-        public bool Get(int id)
-        {
-            return LogInBL.LoginCheck(id);
-        }
+        //public bool Get(int id)
+        //{
+        //    return LogInBL.LoginCheck(id);
+        //}
 
         // POST: api/LogIn
         public Users Post(Users user)

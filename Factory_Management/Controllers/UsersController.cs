@@ -25,19 +25,26 @@ namespace Factory_Management.Controllers
             return UsersBL.GetUserByID(id);
         }
 
-        // POST: api/Users
-        public void Post([FromBody]string value)
+        public String Put(int id, Users user)
         {
+            UsersBL.EditUser(id, user);
+            return "Updated!";
         }
 
-        // PUT: api/Users/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+        // POST: api/Users
+        //public void Post([FromBody]string value)
+        //{
+        //}
+
+
+        //// PUT: api/Users/5
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //}
 
         // DELETE: api/Users/5
-        public void Delete(int id)
-        {
-        }
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

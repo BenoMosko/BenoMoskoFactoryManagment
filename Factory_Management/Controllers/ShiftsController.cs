@@ -14,20 +14,22 @@ namespace Factory_Management.Controllers
     {
         private static readonly ShiftsBL ShiftsBL = new ShiftsBL();
         // GET: api/Shifts
-        public IEnumerable<string> Get()
+        public IEnumerable<Shift> Get()
         {
-            return new string[] { "value1", "value2" };
+            return ShiftsBL.GetShifts();
         }
 
         // GET: api/Shifts/5
-        public string Get(int id)
+        public Shift Get(int id)
         {
-            return "value";
+            return ShiftsBL.GetShift(id);
         }
 
         // POST: api/Shifts
-        public void Post([FromBody]string value)
+        public string Post(Shift sh)
         {
+            ShiftsBL.AddShift(sh);
+            return "Shift Added!";
         }
 
         // PUT: api/Shifts/5
