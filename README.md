@@ -1,7 +1,7 @@
 # BenoMoskoFactoryManagment
 Project1_Full_Stack_with_ASP.NET
 
-Factory management app, using ASP.NET, MSSQL and IIS as a backend server - Java-Script used as a front end client view.
+Factory management app, using ASP.NET, MSSQL and IIS as a backend server - Java-Script, HTML and CSS used as a front end client view.
 
 The Backend server built in C# with Business Logic and Controllers.
 
